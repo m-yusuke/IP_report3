@@ -47,19 +47,30 @@ def gaussian_kernel(radius):
 def gaussian_filter(array, radius=1):
     result = array.copy()
     kernel = gaussian_kernel(radius)
-    print(kernel)
     for num_line, line in enumerate(array):
         for num_row, pixel in enumerate(line):
             l_start = num_line - radius if num_line - radius >= 0 else 0
             l_end = num_line + radius if num_line + radius < array.shape[0] else array.shape[0] - 1
             r_start = num_row - radius if num_row - radius >= 0 else 0
             r_end = num_row + radius if num_row + radius < array.shape[1] else array.shape[1] - 1
+
+            padding_size = ((l_start - num_line + radius, num_line - l_end + radius),(r_start - num_row + radius, num_row - r_end + radius))
+
             filted_area_R = array[l_start:l_end+1, r_start:r_end+1, 0]
             filted_area_G = array[l_start:l_end+1, r_start:r_end+1, 1]
             filted_area_B = array[l_start:l_end+1, r_start:r_end+1, 2]
-            result[num_line, num_row, 0] = np.mean(array[l_start:l_end+1, r_start:r_end+1, 0])
-            result[num_line, num_row, 1] = np.mean(array[l_start:l_end+1, r_start:r_end+1, 1])
-            result[num_line, num_row, 2] = np.mean(array[l_start:l_end+1, r_start:r_end+1, 2])
+            
+            padded_R = np.pad(filted_area_R, padding_size)
+            padded_G = np.pad(filted_area_G, padding_size)
+            padded_B = np.pad(filted_area_B, padding_size)
+
+            convolved_R = padded_R * kernel
+            convolved_G = padded_G * kernel
+            convolved_B = padded_B * kernel
+
+            result[num_line, num_row, 0] = np.sum(convolved_R)
+            result[num_line, num_row, 1] = np.sum(convolved_G)
+            result[num_line, num_row, 2] = np.sum(convolved_B)
 
     return result
 
