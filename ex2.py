@@ -3,10 +3,20 @@ from PIL import Image
 import argparse
 import sys
 
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--save', '-s', action='store_true', default=False)
+    parser.add_argument('--outname', '-o', default='./ex2_result.png')
+    parser.add_argument('--target', '-t', nargs=2, default=['./nkmr.png', './ngym.jpeg'])
+    parser.add_argument('--alpha', '-a', type=float)
+
+    args = parser.parse_args()
+    return args
+
 def alpha_blending(array1, array2, alpha=0.5):
     result = alpha * array1 + (1 - alpha) * array2
     return result
-
 
 def processing_alpha_blending(array1, array2):
     result = array1.copy()
@@ -16,8 +26,6 @@ def processing_alpha_blending(array1, array2):
         result[index] = tmp
 
     return result
-
-
 
 def align_size(img1, img2):
     if img1.size > img2.size:
@@ -30,17 +38,6 @@ def align_size(img1, img2):
     
     return img1.rotate(90, expand=True), img2.rotate(90, expand=True)
 
-def get_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--save', '-s', action='store_true', default=False)
-    parser.add_argument('--outname', '-o', default='./ex2_result.png')
-    parser.add_argument('--target', '-t', nargs=2, default=['./nkmr.png', './ngym.jpeg'])
-    parser.add_argument('--alpha', '-a', type=float, nargs=1)
-
-    args = parser.parse_args()
-    return args
-
-
 if __name__ == '__main__':
     args = get_args()
 
@@ -52,7 +49,7 @@ if __name__ == '__main__':
     if args.alpha is None:
         img_result = processing_alpha_blending(img_array1, img_array2)
     else:
-        if 0 <= args.alpha[0] <= 1:
+        if 0 <= args.alpha <= 1:
             img_result = alpha_blending(img_array1, img_array2, args.alpha[0])
         else:
             print("invalid value")
