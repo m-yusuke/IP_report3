@@ -21,6 +21,24 @@ def gray_scale(img_array):
 
     return result
 
+def sobel_filter(array):
+    gray = gray_scale(array)
+
+    kernel_x = np.array([[-1, 0, 1],
+                   [-2, 0, 2],
+                   [-1, 0, 1]])
+    kernel_y = np.array([[-1, -2, -1],
+                     [0, 0, 0],
+                     [1, 2, 1]])
+
+    conved_x = conv2d(gray, kernel_x)
+    conved_y = conv2d(gray, kernel_y)
+
+    result = np.sqrt(conved_x ** 2 + conved_y ** 2)
+
+    return result
+    
+
 if __name__ == '__main__':
     args = get_args()
 
@@ -29,19 +47,7 @@ if __name__ == '__main__':
         img = img.convert("RGB")
     img_array = np.array(img)
 
-    gray = gray_scale(img_array)
-
-    kernel_x = np.array([[-1, 0, 1],
-                   [-2, 0, 2],
-                   [-1, 0, 1]])
-
-    kernel_y = np.array([[-1, -2, -1],
-                     [0, 0, 0],
-                     [1, 2, 1]])
-
-    gray_x = conv2d(gray, kernel_x)
-    gray_y = conv2d(gray, kernel_y)
-    img_result = np.sqrt(gray_x ** 2 + gray_y ** 2)
+    img_result = sobel_filter(img_array)
 
     pil_img = Image.fromarray(img_result.astype(np.uint8))
 
