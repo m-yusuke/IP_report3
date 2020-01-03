@@ -1,5 +1,5 @@
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
 import argparse
 import sys
 from ex5 import conv2d
