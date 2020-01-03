@@ -1,36 +1,35 @@
 import numpy as np
 from PIL import Image
-import sys
-import getopt
+import argparse
 
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--target', '-t', default='./HLSColorSpace.png')
+    parser.add_argument('--save', '-s', action='store_true', default=False)
+    parser.add_argument('--outname', '-o', default='./ex1_result.png')
+    parser.add_argument('--gamma', default=4, type=int)
+    parser.add_argument('--debug', default=False, action='store_true')
+
+    args = parser.parse_args()
+    return args
 
 def gamma_transform(array, gamma=1):
     array = 255 * ((array/255)**(1/gamma))
     return array
 
-
 if __name__ == '__main__':
-    opts, args = getopt.gnu_getopt(sys.argv[1:], "sf:g:", ["save", "filename=", "gamma="])
-    do_save = False
-    targetfile = './HLSColorSpace.png'
-    gamma = 4
+    args = get_args()
 
-    for o, a in opts:
-        if o in ("-s", "--save"):
-            do_save = True
-            if a == '':
-                result_destination = './ex1_result.png'
-            else:
-                result_destination = a
-        elif o in ("-f", "--filename"):
-            targetfile = a
-        elif o in ("-g", "--gamma"):
-            gamma = a
+    img_array = np.array(Image.open(args.target))
 
-    img_array = np.array(Image.open(targetfile))
-    img_result = gamma_transform(img_array, gamma)
+    img_result = gamma_transform(img_array, args.gamma)
+    
     pil_img = Image.fromarray(img_result.astype(np.uint8))
-    if do_save:
+    
+    if args.save:
         pil_img.save(result_destination)
+    elif args.debug:
+        pass
     else:
         pil_img.show()
