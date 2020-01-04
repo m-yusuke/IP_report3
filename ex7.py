@@ -48,6 +48,8 @@ def sobel_filter(array):
     return conved_x, conved_y
 
 def non_max_sup(grad, grad_size):
+    # 参考
+    # https://algorithm.joho.info/programming/python/opencv-canny-edge-detecte-py/
     h, w = grad.shape
     result = grad.copy()
 
@@ -81,6 +83,8 @@ def non_max_sup(grad, grad_size):
 
 # Hysteresis Threshold処理
 def hysteresis_threshold(array, th_low=75, th_high=150, d=1):
+    # 参考
+    # https://algorithm.joho.info/programming/python/opencv-canny-edge-detecte-py/
 
     h, w = array.shape
     result = array.copy()
@@ -106,6 +110,9 @@ def hysteresis_threshold(array, th_low=75, th_high=150, d=1):
     return result
 
 def canny_edge_detecter(array, th_low, th_high, sigma=None, radius=1):
+    # 参考
+    # https://algorithm.joho.info/programming/python/opencv-canny-edge-detecte-py/
+
     # ガウシアンフィルタを適応
     smoothed = ex5.gaussian_filter(array, radius, sigma)
 
