@@ -14,9 +14,9 @@ def turn_image(img_array):
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--save', '-s', action='store_true', default=False, default=False, help='出力結果を保存するするかどうか')
+    parser.add_argument('--save', '-s', action='store_true', default=False, help='出力結果を保存するするかどうか')
     parser.add_argument('--outname', '-o', default='./ex3_result.png', help='出力結果を保存する際のファイル名の指定')
-    parser.add_argument('--target', '-t', default='./ngym.jpeg', help='使用する画像ファイルの指定')
+    parser.add_argument('--target', '-t', default='./sample1.jpeg', help='使用する画像ファイルの指定')
     parser.add_argument('--debug', default=False, action='store_true', help='結果を出力するかどうか')
 
     args = parser.parse_args()

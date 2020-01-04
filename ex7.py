@@ -7,7 +7,7 @@ import ex5
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--target', '-t', default='./ngym.jpeg', help='使用する画像ファイルの指定')
+    parser.add_argument('--target', '-t', default='./sample1.jpeg', help='使用する画像ファイルの指定')
     parser.add_argument('--save', '-s', action='store_true', default=False, help='出力結果を保存するするかどうか')
     parser.add_argument('--outname', '-o', default='./ex7_result.png', help='出力結果を保存する際のファイル名の指定')
     parser.add_argument('--radius', default=1, type=int, help='カーネルの大きさ')
@@ -140,7 +140,6 @@ if __name__ == '__main__':
     if img.mode != "RGB":
         img = img.convert("RGB")
 
-    print(img.size)
     img_array = np.array(img)
 
     # ソーベルフィルタを適応

@@ -17,11 +17,12 @@ def show_img(img, sec):
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--target', '-t', default='./ngym.jpeg', help='使用する画像ファイルの指定')
+    parser.add_argument('--target', '-t', default='./sample1.jpeg', help='使用する画像ファイルの指定')
     parser.add_argument('--seconds', default=5, type=float, help='タイルを入れ替える秒数を指定')
     parser.add_argument('--line', default=3, type=int, help='区切られる行数を指定')
     parser.add_argument('--row', default=3, type=int, help='区切られる列数を指定')
     parser.add_argument('--random', default=False, action='store_true', help='反転するタイルの順番をランダムにする')
+    parser.add_argument('--debug', default=False, action='store_true', help='結果を出力するかどうか')
 
     args = parser.parse_args()
     return args
@@ -64,6 +65,8 @@ if __name__ == '__main__':
 
     targetindex = 0
     while True:
+        if args.debug:
+            break
         if not args.random:
             if targetindex >= num_elem:
                 targetindex = 0
