@@ -10,6 +10,7 @@ def get_args():
     parser.add_argument('--radius', default=1, type=int, help='カーネルの大きさ')
     parser.add_argument('--gaus', default=False, action='store_true', help='フィルタをガウシアンフィルタに変更')
     parser.add_argument('--debug', default=False, action='store_true', help='結果を出力するかどうか')
+    parser.add_argument('--sigma', default=None, type=float, help='ガウシアンフィルタの標準偏差')
 
     args = parser.parse_args()
     return args
@@ -19,8 +20,9 @@ def gaus2d(x, y, sigma):
     h = np.exp(-(x**2 + y**2)/(2 * sigma**2))/(2 * np.pi * sigma**2)
     return h
 
-def gaussian_kernel(radius):
-    sigma = radius/2 # ガウス分布の計算に用いるシグマ値を設定
+def gaussian_kernel(radius, sigma=None):
+    if sigma is None:
+        sigma = radius/2 # ガウス分布の計算に用いるシグマ値を設定
     size = radius * 2 + 1 # カーネルサイズ
     
     x = y = np.arange(0,size) - radius #x, yの値をx=y=0を中心に移動 
@@ -60,9 +62,9 @@ def conv2d(array, kernel):
 
     return result
 
-def gaussian_filter(array, radius=1):
+def gaussian_filter(array, radius=1, sigma=None):
     result = np.zeros(array.shape)
-    kernel = gaussian_kernel(radius)
+    kernel = gaussian_kernel(radius, sigma)
     # R,G,Bそれぞれに対して畳み込みを行う
     result[:, :, 0] = conv2d(array[:, :, 0], kernel)
     result[:, :, 1] = conv2d(array[:, :, 1], kernel)
@@ -93,7 +95,7 @@ if __name__ == '__main__':
 
     if args.gaus:
         # ガウシアンフィルタにより平滑化
-        img_result = gaussian_filter(img_array, args.radius)
+        img_result = gaussian_filter(img_array, args.radius, args.sigma)
     else:
         # 平均化フィルタにより平滑化
         img_result = averaging_filter(img_array, args.radius)
