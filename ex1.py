@@ -5,7 +5,7 @@ import argparse
 
 def get_args():
     # 使用可能なオプションの指定
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='トーンカーブ変換のスクリプト')
     parser.add_argument('--target', '-t', default='./HLSColorSpace.png', help='使用する画像ファイルの指定')
     parser.add_argument('--save', '-s', action='store_true', default=False, help='出力結果を保存するするかどうか')
     parser.add_argument('--outname', '-o', default='./ex1_result.png', help='出力結果を保存する際のファイル名の指定')

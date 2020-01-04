@@ -17,7 +17,7 @@ def show_img(img, sec):
     plt.pause(sec)
 
 def get_args():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='モザイクタイルのスクリプト')
     parser.add_argument('--target', '-t', default='./sample1.jpeg', help='使用する画像ファイルの指定')
     parser.add_argument('--seconds', default=5, type=float, help='タイルを入れ替える秒数を指定')
     parser.add_argument('--line', default=3, type=int, help='区切られる行数を指定')
