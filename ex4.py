@@ -4,6 +4,7 @@ import argparse
 import ex3
 import random
 import matplotlib.pyplot as plt
+import time
 
 
 def show_img(img, sec):
@@ -23,6 +24,8 @@ def get_args():
     parser.add_argument('--row', default=3, type=int, help='区切られる列数を指定')
     parser.add_argument('--random', default=False, action='store_true', help='反転するタイルの順番をランダムにする')
     parser.add_argument('--debug', default=False, action='store_true', help='結果を出力するかどうか')
+    parser.add_argument('--endless', default=False, action='store_true', help='強制終了されるまで無限に繰り返す')
+    parser.add_argument('--times', default=15, type=float, help='繰り返す秒数を指定')
 
     args = parser.parse_args()
     return args
@@ -64,6 +67,7 @@ if __name__ == '__main__':
     divided_img_array = array_divide(img_array, num_line, num_row)
 
     targetindex = 0
+    start = time.time()
     while True:
         if args.debug:
             break
@@ -84,3 +88,8 @@ if __name__ == '__main__':
         if not args.random:
             # ランダムオプションが有効でない場合はtargetindexをインクリメント
             targetindex += 1
+
+        end = time.time()
+        progress = end - start
+        if not args.endless and progress > args.times:
+            break
