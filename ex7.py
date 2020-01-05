@@ -93,19 +93,19 @@ def hysteresis_threshold(array, th_low=75, th_high=150, d=1):
         for x in range(0, w):
             # 最大閾値より大きければ信頼性の高い輪郭
             if array[y][x] >= th_high:
-                result[y][x] = 0
+                result[y][x] = 255
             # 最小閾値より小さければ信頼性の低い輪郭(除去)
             elif array[y][x] < th_low:
-                result[y][x] = 255
+                result[y][x] = 0
             # 最小閾値～最大閾値の間なら、近傍に信頼性の高い輪郭が1つでもあれば輪郭と判定、無ければ除去
             else:
                 try:
                     if np.max(array[y-d:y+d+1, x-d:x+d+1]) >= th_high:
-                        result[y][x] = 0
-                    else:
                         result[y][x] = 255
+                    else:
+                        result[y][x] = 0
                 except ValueError:
-                    result[y][x] = 255
+                    result[y][x] = 0
 
     return result
 
